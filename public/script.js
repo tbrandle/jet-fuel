@@ -132,7 +132,6 @@ $('.submit').on('click', function (e) {
   .then(response => response.json())
   .then(link => $('.links-div').append(linkHtml(link)))
   .catch(error => console.log(error))
-
   $('.link-input').val('')
 })
 
