@@ -11,6 +11,25 @@ const database = require('knex')(configuration);
 
 chai.use(chaiHttp)
 
+
+describe('test server side routes', () => {
+  beforeEach((done) => {
+    database.migrate.latest()
+    .then(() => database.seed.run())
+    .then(() => {
+      done()
+    })
+
+  })
+
+  afterEach((done) => {
+    database.seed.run()
+    .then(() => {
+      done()
+      })
+  })
+
+
 describe('Client Routes', () => {
 
   it('should have a title of "Some URL Thing"', (done) => {
@@ -34,43 +53,9 @@ describe('Client Routes', () => {
 })
 
 describe('API GET routes', () => {
-  //
-  // beforeEach(function(done) {
-  //    database.migrate.rollback()
-  //    .then(function() {
-  //      database.migrate.latest()
-  //      .then(function() {
-  //        return database.seed.run()
-  //        .then(function() {
-  //          done();
-  //        });
-  //      });
-  //    });
-  //  });
-  //
-  //  afterEach(function(done) {
-  //    database.migrate.rollback()
-  //    .then(function() {
-  //      done();
-  //    });
-  //  });
 
 
-  beforeEach((done) => {
-    database.migrate.latest()
-    .then(() => database.seed.run())
-    .then(() => {
-      done()
-    })
 
-  })
-
-  afterEach((done) => {
-    database.seed.run()
-    .then(() => {
-      done()
-      })
-  })
 
 
   it('GET /api/v1/folders', (done) => {
@@ -129,85 +114,50 @@ describe('API GET routes', () => {
       })
   })
 
-  // it('GET /aol', (done) => {
-    // chai.request(server)
-    //   .get('/TESTaol')
-    //   .end((err, response) => {
-    //     response.should.have.status(200)
-    //     response.should.be.html
-    //     response.should.redirectTo('http://www.aol.com/')
-    //     chai.request(server)
-    //       .get('/api/v1/links')
-    //       .end((err, response) => {
-    //         response.body[0].should.have.property('visits')
-    //         response.body[0].visits.should.equal(1)
-    //         done()
-    //     })
-    //   })
-    // })
+  it('GET /aol', (done) => {
+    chai.request(server)
+      .get('/TESTaol')
+      .end((err, response) => {
+        response.should.have.status(200)
+        response.should.be.html
+        response.should.redirectTo('http://www.aol.com/')
+        chai.request(server)
+          .get('/api/v1/links')
+          .end((err, response) => {
+            response.body[0].should.have.property('visits')
+            response.body[0].visits.should.equal(1)
+            done()
+        })
+      })
+    })
 })
 
 describe('API POST routes', () => {
 
- //  beforeEach(function(done) {
- //   database.migrate.rollback()
- //   .then(function() {
- //     database.migrate.latest()
- //     .then(function() {
- //       return database.seed.run()
- //       .then(function() {
- //         done();
- //       });
- //     });
- //   });
- // });
- //
- // afterEach(function(done) {
- //   database.migrate.rollback()
- //   .then(function() {
- //     done();
- //   });
- // });
-
-
-  beforeEach((done) => {
-    database.migrate.latest()
-    .then(() => database.seed.run())
-    .then(() => done())
-
-  })
-
-  afterEach((done) => {
-    database.seed.run()
-    .then(() => {
-      done()
-    })
-  })
-
-  // it('should create a new folder', (done) => {
-  //       chai.request(server)
-  //       .post('/api/v1/folders')
-  //       .send({
-  //         title: 'New Folder'
-  //       })
-  //       .end((err, response) => {
-  //         response.should.have.status(201)
-  //         response.body.should.be.a('object')
-  //         response.body.should.have.property('id')
-  //         chai.request(server)
-  //         .get('/api/v1/folders')
-  //         .end((err, response) => {
-  //           response.should.have.status(200)
-  //           response.should.be.json
-  //           response.body.should.be.a('array')
-  //           response.body.length.should.equal(2)
-  //           response.body[1].should.have.property('title')
-  //           response.body[1].title.should.equal('New Folder')
-  //           response.body[1].should.have.property('id')
-  //           done()
-  //         })
-  //       })
-  //     })
+  it('should create a new folder', (done) => {
+        chai.request(server)
+        .post('/api/v1/folders')
+        .send({
+          title: 'New Folder'
+        })
+        .end((err, response) => {
+          response.should.have.status(201)
+          response.body.should.be.a('object')
+          response.body.should.have.property('id')
+          chai.request(server)
+          .get('/api/v1/folders')
+          .end((err, response) => {
+            response.should.have.status(200)
+            response.should.be.json
+            response.body.should.be.a('array')
+            response.body.length.should.equal(2)
+            response.body[1].should.have.property('title')
+            response.body[1].title.should.equal('New Folder')
+            response.body[1].should.have.property('id')
+            done()
+          })
+        })
+      })
 
   it('should create a new link', (done) => {
     chai.request(server)
@@ -258,4 +208,6 @@ describe('API POST routes', () => {
   //       done()
   //     })
   // })
+})
+
 })
