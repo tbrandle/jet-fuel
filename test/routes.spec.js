@@ -34,12 +34,31 @@ describe('Client Routes', () => {
 })
 
 describe('API GET routes', () => {
+  // 
+  // beforeEach(function(done) {
+  //    database.migrate.rollback()
+  //    .then(function() {
+  //      database.migrate.latest()
+  //      .then(function() {
+  //        return database.seed.run()
+  //        .then(function() {
+  //          done();
+  //        });
+  //      });
+  //    });
+  //  });
+  //
+  //  afterEach(function(done) {
+  //    database.migrate.rollback()
+  //    .then(function() {
+  //      done();
+  //    });
+  //  });
+
 
   beforeEach((done) => {
     database.migrate.latest()
-    .then(() => {
-      return database.seed.run()
-    })
+    .then(() => database.seed.run())
     .then(() => {
       done()
     })
@@ -47,10 +66,10 @@ describe('API GET routes', () => {
   })
 
   afterEach((done) => {
-    database.migrate.rollback()
+    database.seed.run()
     .then(() => {
       done()
-    })
+      })
   })
 
 
@@ -130,19 +149,36 @@ describe('API GET routes', () => {
 
 describe('API POST routes', () => {
 
+ //  beforeEach(function(done) {
+ //   database.migrate.rollback()
+ //   .then(function() {
+ //     database.migrate.latest()
+ //     .then(function() {
+ //       return database.seed.run()
+ //       .then(function() {
+ //         done();
+ //       });
+ //     });
+ //   });
+ // });
+ //
+ // afterEach(function(done) {
+ //   database.migrate.rollback()
+ //   .then(function() {
+ //     done();
+ //   });
+ // });
+
+
   beforeEach((done) => {
     database.migrate.latest()
-    .then(() => {
-       database.seed.run()
-       .then(() => {
-       done()
-     })
-    })
+    .then(() => database.seed.run())
+    .then(() => done())
 
   })
 
   afterEach((done) => {
-    database.migrate.rollback()
+    database.seed.run()
     .then(() => {
       done()
     })
