@@ -189,25 +189,6 @@ describe('API POST routes', () => {
         })
     })
 
-
-  // it('POST /api/v1/folders/1/links', (done) => {
-  //   chai.request(server)
-  //     .get('/api/v1/folders/1/links')
-  //     .end((err, response) => {
-  //
-  //
-  //       done()
-  //     })
-  // })
-  //
-  // it('POST /aol', (done) => {
-  //   chai.request(server)
-  //     .get('/TESTaol')
-  //     .end((err, response) => {
-  //
-  //       done()
-  //     })
-  // })
 })
 
 })
